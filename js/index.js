@@ -1,17 +1,11 @@
 var myForm = document.getElementById("myForm");
 
 var regexCardNumber = /^([0-9]{14,16})$/
-var regexCardCVC = /^([0-9]{4})$/
+var regexCardCVC = /^([0-9]{3,4})$/
 var regexAmount = /^([0-9]{3,})$/
 var regexName = /^([A-z]{1,20})$/
 var regexLocation = /^([A-z]{3,25})$/
 var regexPostalCode = /^([0-9]{5,15})$/
-
-
-myForm.addEventListener('submit', function (e) {
-
-    e.preventDefault();
-})
 
 myForm.onsubmit = function () {
     var cardNumber = document.getElementById("car-number");
@@ -28,6 +22,8 @@ myForm.onsubmit = function () {
     var dinersClub = document.getElementById("diners-club");
     var amex = document.getElementById("amex");
 
+    var validated = true;
+
     //card number verification
     if (regexCardNumber.test(cardNumber.value)) {
         cardNumber.classList.remove("is-invalid");
@@ -35,6 +31,7 @@ myForm.onsubmit = function () {
     }else{
         cardNumber.classList.remove("is-valid");
         cardNumber.classList.add("is-invalid");
+        validated = false;
     }
 
     //card number verification
@@ -44,6 +41,7 @@ myForm.onsubmit = function () {
     }else{
         cvcNumber.classList.remove("is-valid");
         cvcNumber.classList.add("is-invalid");
+        validated = false;
     }
 
     //Mony amount verification
@@ -53,6 +51,7 @@ myForm.onsubmit = function () {
     }else{
         amount.classList.remove("is-valid");
         amount.classList.add("is-invalid");
+        validated = false;
     }
 
     //fist name verification
@@ -62,6 +61,7 @@ myForm.onsubmit = function () {
     }else{
         firstName.classList.remove("is-valid");
         firstName.classList.add("is-invalid");  
+        validated = false;
     }
     
     //last name verification
@@ -71,6 +71,7 @@ myForm.onsubmit = function () {
     }else{
         lastName.classList.remove("is-valid");
         lastName.classList.add("is-invalid");
+        validated = false;
     }
 
     //city verification
@@ -80,15 +81,17 @@ myForm.onsubmit = function () {
     }else{
         city.classList.remove("is-valid");
         city.classList.add("is-invalid");
+        validated = false;
     }
 
     //state verification
-    if (regexLocation.test(state.value)) {
+     if (state.value > 0) {
         state.classList.remove("is-invalid");
         state.classList.add("is-valid");
     }else{
         state.classList.remove("is-valid");
         state.classList.add("is-invalid");
+        validated = false;
     }
 
     //postal code verification
@@ -98,6 +101,7 @@ myForm.onsubmit = function () {
     }else{
         postalCode.classList.remove("is-valid");
         postalCode.classList.add("is-invalid");
+        validated = false;
     }
 
     //card radio chec verification
@@ -105,5 +109,10 @@ myForm.onsubmit = function () {
         document.getElementById("payment-metod").classList.remove("red-border");
     }else{
         document.getElementById("payment-metod").classList.add("red-border");
+        validated = false;
+    }
+
+    if(!validated){
+        return false;
     }
 }
